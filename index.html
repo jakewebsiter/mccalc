@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minecraft Stack Calculator</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        display: grid;
+        justify-items: center;
+      }
+
+      h1 {
+        font-size: 8rem;
+        margin-bottom: 0;
+      }
+
+      #form {
+        margin-top: 3rem;
+        font-size: 6rem;
+        display: grid;
+        justify-items: center;
+      }
+
+      .textbox {
+        font-size: 8rem;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="" onsubmit="return calculate()" id="form">
+      Number of items:
+      <input type="text" name="input" class="textbox" />
+    </form>
+    <h1 id="stacks" class="stacks"></h1>
+    <h1 id="shulker" class="shulker"></h1>
+    <script>
+      function calculate() {
+        let stackDisplay = document.getElementById('stacks');
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        let int = document.forms['form']['input'].value;
+        // let form = document.forms['form'];
+        // form.submit((e) => e.preventDefault());
+        if (int == '') {
+          int = '0';
+        }
+
+        int = parseInt(int);
+
+        let stackNumber = Math.floor(int / 64);
+        let stackRemainder = int % 64;
+
+        console.log(int);
+
+        stackDisplay.innerHTML = `${stackNumber} stack${
+          stackNumber === 1 ? '' : 's'
+        } and ${stackRemainder}`;
+
+        let shulkerDisplay = document.getElementById('shulker');
+
+        if (stackNumber >= 27) {
+          let shulkerNumber = Math.floor(stackNumber / 27);
+          let shulkerRemainder = stackNumber % 27;
+
+          shulkerDisplay.innerHTML =
+            shulkerDisplay.innerHTML = `${shulkerNumber} shulker${
+              shulkerNumber === 1 ? '' : 's'
+            }, ${shulkerRemainder} stack${
+              stackNumber === 1 ? '' : 's'
+            } and ${stackRemainder}`;
+        } else {
+          shulkerDisplay.innerHTML = '';
+        }
+
+        document.forms['form']['input'].value = '';
+        return false;
+      }
+    </script>
+  </body>
+</html>
